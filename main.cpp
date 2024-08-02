@@ -27,25 +27,25 @@
 // denpaCircle
 // Draws a circle in the command line.
 
+#include <cstdlib>
 #include <stdio.h>
 #include <stdint.h>
 
 int main(void) {
 	char bitmap[64][64] = {};
-	
-	int centerX = 32;
-	int centerY = 32;
-	int radius = 20;
+	int8_t centerX = 32;
+	int8_t centerY = 32;
+	int8_t radius = 20;
 	
 	{
-		int diameter = radius + radius;
-		int x = radius;
-		int y = 0;
-		int dY = -2;
-		int dX = diameter + diameter - 4;
-		int d = diameter - 1;
+		int8_t diameter = radius + radius;
+		int8_t x = radius;
+		int8_t y = 0;
+		int8_t dY = -2;
+		int8_t dX = diameter + diameter - 4;
+		int8_t d = diameter - 1;
 		
-		while (y <= x) {
+		while (x >= y) {
 			bitmap[centerY - y][centerX - x] = 1;
 			bitmap[centerY - y][centerX + x] = 1;
 			bitmap[centerY + y][centerX - x] = 1;
@@ -59,25 +59,20 @@ int main(void) {
 			dY -= 4;
 			++y;
 			
-			int mask = (d >> 31);
+			int8_t mask = (d >> 7);
 			d += (dX & mask);
 			dX -= (4 & mask);
 			x += mask;
 		}
 	}
 	
-	for (int i = 0; i < 64; ++i) {
-		for (int j = 0; j < 64; ++j) {
-			char left = ' ';
-			char right = ' ';
-			if (bitmap[i][j] == 1) {
-				left = '[';
-				right = ']';
-			}
-			printf("%c%c", left, right);
+	for (uint8_t i = 0; i < 64; ++i) {
+		for (uint8_t j = 0; j < 64; ++j) {
+			if (bitmap[i][j]) {printf("[]");}
+			else {printf("  ");}
 		}
 		printf("\n");
 	}
 	
-	return 0;
+	return EXIT_SUCCESS;
 }
